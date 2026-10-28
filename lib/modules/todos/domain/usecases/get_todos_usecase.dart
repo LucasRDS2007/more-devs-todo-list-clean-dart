@@ -1,9 +1,9 @@
 import '../entities/todo.dart';
 import '../repositories/todo_repository.dart';
 
-class GetTodos {
+class GetTodosUsecase {
   final TodoRepository repository;
-  GetTodos(this.repository);
+  GetTodosUsecase(this.repository);
 
   /// Regra de negócio: quando [hideDone] é verdadeiro, esconde as concluídas.
   Future<List<Todo>> call({bool hideDone = false}) async {

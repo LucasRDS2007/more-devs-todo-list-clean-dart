@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:todo_gabarito/modules/todos/domain/usecases/get_todos.dart';
+import 'package:todo_gabarito/modules/todos/domain/usecases/get_todos_usecase.dart';
 import 'package:todo_gabarito/modules/todos/presenter/todos_controller.dart';
 import 'package:todo_gabarito/modules/todos/presenter/todos_page.dart';
 
@@ -10,7 +10,8 @@ void main() {
   testWidgets('exibe o status das tarefas', (tester) async {
     final repository = FakeTodoRepository();
     final controller = TodosController(
-      getTodos: GetTodos(repository),
+      getTodos: GetTodosUsecase(repository),
+      updateTodosUseCase: null,
     );
     await controller.load();
 

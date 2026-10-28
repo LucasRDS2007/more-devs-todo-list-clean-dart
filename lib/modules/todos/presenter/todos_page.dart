@@ -148,12 +148,15 @@ class _TodosPageState extends State<TodosPage> {
               child: _TodoCard(
                 title: todo.title,
                 done: todo.done,
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute<void>(
+                onTap: () async {
+                  final shouldReload = await Navigator.of(context).push<bool>(
+                    MaterialPageRoute(
                       builder: (_) => TodoUpdatePage(todo: todo),
                     ),
                   );
+                  if (shouldReload == true) {
+                    controller.load();
+                  }
                 },
               ),
             ),

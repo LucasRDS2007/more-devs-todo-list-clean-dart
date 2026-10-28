@@ -1,11 +1,12 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:todo_gabarito/modules/todos/domain/usecases/get_todos.dart';
+import 'package:todo_gabarito/modules/todos/domain/usecases/get_todos_usecase.dart';
 import 'package:todo_gabarito/modules/todos/presenter/todos_controller.dart';
 
 import '../../../helpers/fake_todo_repository.dart';
 
 TodosController _controller(FakeTodoRepository repository) => TodosController(
-      getTodos: GetTodos(repository),
+      getTodos: GetTodosUsecase(repository),
+      updateTodosUseCase: null,
     );
 
 void main() {

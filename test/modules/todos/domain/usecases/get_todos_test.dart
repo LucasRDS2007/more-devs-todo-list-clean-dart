@@ -1,11 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:todo_gabarito/modules/todos/domain/usecases/get_todos.dart';
+import 'package:todo_gabarito/modules/todos/domain/usecases/get_todos_usecase.dart';
 
 import '../../../../helpers/fake_todo_repository.dart';
 
 void main() {
   test('GetTodos devolve todas as tarefas por padrão', () async {
-    final usecase = GetTodos(FakeTodoRepository());
+    final usecase = GetTodosUsecase(FakeTodoRepository());
 
     final result = await usecase();
 
@@ -13,7 +13,7 @@ void main() {
   });
 
   test('GetTodos esconde as concluídas quando hideDone é verdadeiro', () async {
-    final usecase = GetTodos(FakeTodoRepository());
+    final usecase = GetTodosUsecase(FakeTodoRepository());
 
     final result = await usecase(hideDone: true);
 
