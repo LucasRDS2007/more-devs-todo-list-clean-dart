@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:todo_gabarito/main.dart';
 import 'package:todo_gabarito/modules/todos/domain/usecases/update_todos_usecase.dart';
 
 import '../domain/entities/todo.dart';
