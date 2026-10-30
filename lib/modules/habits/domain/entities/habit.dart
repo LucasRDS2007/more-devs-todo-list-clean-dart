@@ -32,6 +32,7 @@ class Habit {
 
     return maxStreak;
   }
+  //teste
 
  bool hasCheckedInToday() {
   final today = DateTime.now();
