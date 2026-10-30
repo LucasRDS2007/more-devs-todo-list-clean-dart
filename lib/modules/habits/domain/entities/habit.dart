@@ -9,9 +9,9 @@ class Habit {
       id: id, name: name ?? this.name, checkins: checkins ?? this.checkins);
 
   int getCheckinStreak() {
-    if (checkins!.isEmpty) return 0;
+    if (checkins.isEmpty) return 0;
 
-    final dates = checkins!.map((date) => DateTime.parse(date)).toList()
+    final dates = checkins.map((date) => DateTime.parse(date)).toList()
       ..sort();
 
     int streak = 1;
@@ -33,17 +33,14 @@ class Habit {
     return maxStreak;
   }
 
-  bool hasCheckedInToday() {
-    final today = DateTime.now();
+ bool hasCheckedInToday() {
+  final today = DateTime.now();
 
-    bool done =  checkins?.any((checkin) {
-          final date = DateTime.parse(checkin);
+  return checkins.any((checkin) {
+    final date = DateTime.parse(checkin);
 
-          return date.year == today.year &&
-              date.month == today.month &&
-              date.day == today.day;
-        }) ??
-        false;
-        return done;
-  }
-}
+    return date.year == today.year &&
+        date.month == today.month &&
+        date.day == today.day;
+  });
+}}
