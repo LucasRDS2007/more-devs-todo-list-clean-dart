@@ -8,10 +8,6 @@ class HabitModel extends Habit {
   });
 
   factory HabitModel.fromMap(Map<String, dynamic> map) {
-    for (var element in map['checkins']) {
-      print(element);
-    }
-
     return HabitModel(
       id: map['id'] as int,
       name: map['name'] as String,

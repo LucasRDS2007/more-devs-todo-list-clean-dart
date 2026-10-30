@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:todo_gabarito/modules/habits/domain/usecases/checkin_habit_usecase.dart';
 import 'package:todo_gabarito/modules/habits/domain/usecases/get_habits_usecase.dart';
 import 'package:todo_gabarito/modules/habits/external/datasources/habit_api_datasource.dart';
 import 'package:todo_gabarito/modules/habits/infra/datasources/habit_data_source.dart';
@@ -31,6 +32,7 @@ void main() {
   final HabitDatasource habitDatasource = HabitApiDatasource(dio);
   final habitRepository = HabitRepositoryImpl(habitDatasource);
   final habitController = HabitController(
+    checkinHabitsUsecase: CheckinHabitsUsecase(habitRepository),
     getHabits: GetHabitsUsecase(habitRepository),
   )..load();
 
@@ -51,7 +53,6 @@ void main() {
       home: HomeShell(
         pages: [
           TodosPage(controller: todoController),
-          // TODO(aluno): passar o HabitsController para a página.
           HabitsPage(
             controller: habitController,
           ),
@@ -61,7 +62,6 @@ void main() {
   ));
 }
 
-/// Navegação entre os módulos. Fica aqui para um módulo não importar o outro.
 class HomeShell extends StatefulWidget {
   const HomeShell({super.key, required this.pages});
 

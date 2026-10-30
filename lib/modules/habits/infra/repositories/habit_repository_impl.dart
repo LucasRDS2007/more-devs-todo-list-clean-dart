@@ -19,9 +19,10 @@ class HabitRepositoryImpl implements HabitRepository {
   }
 
   @override
-  void checkinHabit(Habit habit) async {
+  Future<Habit> checkinHabit(Habit habit) async {
     try {
-      await datasource.updateHabits(habit);
+      Map<String,dynamic> habitUpdated = await datasource.updateHabits(habit);
+      return HabitModel.fromMap(habitUpdated);
     } catch (_) {
       throw const HabitFailure('Não foi possível atualizar o habito');
     }

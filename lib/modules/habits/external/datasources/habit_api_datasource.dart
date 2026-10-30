@@ -16,7 +16,7 @@ class HabitApiDatasource implements HabitDatasource {
   @override
   Future<Map<String, dynamic>> updateHabits(Habit habit) async {
     final res = await dio.post(
-      '/habits/${habit.id}/chekins',
+      '/habits/${habit.id}/checkins',
     );
 
     return res.data as Map<String, dynamic>;

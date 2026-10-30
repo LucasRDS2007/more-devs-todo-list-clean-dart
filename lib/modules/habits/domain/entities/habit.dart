@@ -36,7 +36,7 @@ class Habit {
   bool hasCheckedInToday() {
     final today = DateTime.now();
 
-    return checkins?.any((checkin) {
+    bool done =  checkins?.any((checkin) {
           final date = DateTime.parse(checkin);
 
           return date.year == today.year &&
@@ -44,5 +44,6 @@ class Habit {
               date.day == today.day;
         }) ??
         false;
+        return done;
   }
 }

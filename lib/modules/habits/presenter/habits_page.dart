@@ -41,6 +41,11 @@ class _HabitsPageState extends State<HabitsPage> {
 
   Widget _buildBody(BuildContext context) {
     return Consumer<HabitController>(builder: (context, controller, child) {
+      // Loading da página inteira enquanto o GET dos hábitos está em andamento
+      // (inclui o botão de recarregar no topo).
+      if (controller.loadingHabits) {
+        return const Center(child: CircularProgressIndicator());
+      }
       final habits = widget.controller.habits;
       final doneToday =
           habits.where((habit) => habit.hasCheckedInToday()).length;
@@ -81,8 +86,9 @@ class _HabitsPageState extends State<HabitsPage> {
               ),
               IconButton.filledTonal(
                 tooltip: 'Atualizar hábitos',
-                // TODO(aluno): chamar controller.load.
-                onPressed: () {},
+                onPressed: () {
+                  controller.load();
+                },
                 icon: const Icon(Icons.refresh_rounded),
               ),
             ],
@@ -111,10 +117,11 @@ class _HabitsPageState extends State<HabitsPage> {
               (habit) => Padding(
                 padding: const EdgeInsets.only(bottom: 10),
                 child: _HabitCard(
+                  isLoading:  controller.checkingInId.any((element) => element == habit.id.toString(),) ,
                   name: habit.name,
                   streak: habit.getCheckinStreak(),
                   doneToday: habit.hasCheckedInToday(),
-                  onCheckIn: () {},
+                  onCheckIn: () {controller.checkIn(habit);},
                 ),
               ),
             ),
@@ -240,13 +247,14 @@ class _HabitCard extends StatelessWidget {
     required this.name,
     required this.streak,
     required this.doneToday,
-    required this.onCheckIn,
+    required this.onCheckIn, required this.isLoading,
   });
 
   final String name;
   final int streak;
   final bool doneToday;
   final VoidCallback onCheckIn;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -295,7 +303,9 @@ class _HabitCard extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 8),
-            if (doneToday)
+             if (isLoading)
+              CircularProgressIndicator(color: colorScheme.primary,)
+            else if (doneToday)
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -310,7 +320,7 @@ class _HabitCard extends StatelessWidget {
                   ),
                   const SizedBox(width: 4),
                 ],
-              )
+              ) 
             else
               FilledButton.tonal(
                 onPressed: onCheckIn,

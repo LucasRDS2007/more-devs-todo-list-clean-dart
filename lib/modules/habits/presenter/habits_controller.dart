@@ -13,12 +13,14 @@ class HabitController extends ChangeNotifier {
   final CheckinHabitsUsecase checkinHabitsUsecase;
 
   List<Habit> habits = [];
-  bool loading = false;
+  bool loadingHabits = false;
   String? error;
   Habit? updatedHabit;
 
+  List<String> checkingInId = [];
+
   void load() async {
-    loading = true;
+    loadingHabits = true;
     error = null;
     notifyListeners();
     try {
@@ -26,20 +28,35 @@ class HabitController extends ChangeNotifier {
     } on HabitFailure catch (f) {
       error = f.message;
     }
-    loading = false;
+    loadingHabits = false;
     notifyListeners();
   }
 
+  addCheckingId(String id) {
+    checkingInId.add(id);
+  }
+
+  removeCheckingId(String id) {
+    checkingInId.remove(id);
+  }
+
   void checkIn(Habit habit) async {
-    loading = true;
+    addCheckingId(habit.id.toString());
     error = null;
     notifyListeners();
     try {
-      checkinHabitsUsecase(habit);
+      updatedHabit = await checkinHabitsUsecase(habit);
+      final index = habits.indexWhere((h) => h.id == updatedHabit!.id);
+      if (index != -1) {
+        habits[index] = updatedHabit!;
+      }
     } on HabitFailure catch (f) {
       error = f.message;
+    } finally {
+      removeCheckingId(habit.id.toString());
+      notifyListeners();
     }
-    loading = false;
+
     notifyListeners();
   }
 }
